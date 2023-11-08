@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 
 // Setting session authorization
-app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
+app.use("/customer", session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 
 // Authorization feature
 app.use("/customer/auth/*", function auth(req,res,next){
@@ -21,13 +21,11 @@ app.use("/customer/auth/*", function auth(req,res,next){
             if(!err){
                 req.user = user;
                 next();
-            }
-            else{
+            } else {
                 return res.status(403).json({message: "User not authenticated"})
             }
         });
-    } 
-    else {
+    } else {
         return res.status(403).json({message: "User not logged in"})
     }
 });
