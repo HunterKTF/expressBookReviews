@@ -22,9 +22,16 @@ public_users.post("/register", (req,res) => {
     return res.status(404).json({message: "Unable to register user."});
 });
 
-// Get the book list available in the shop
+// Get the book list available in the shop with promise/callback functions
 public_users.get('/',function (req, res) {
-    res.send(JSON.stringify(books, null, 4));
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({books});
+        }, 1000)
+    })
+    .then(data => {
+        res.send(JSON.stringify(data, null, 4))
+    })
 });
 
 // Get book details based on ISBN
