@@ -55,46 +55,46 @@ public_users.get('/isbn/:isbn',function (req, res) {
     })
 });
 
-// Get book details based on author
+// Get book details based on author with promise/callback functions
 public_users.get('/author/:author',function (req, res) {
     const author = req.params.author;
-
-    var data = eval(books);
-    var authors = '';
-    var found = false;
-    for (var key in data) {
-        authors = books[key]['author'];
-
-        if (author === authors){
-            res.send(books[key]);
-            found = true;
+    let filtered_author = null;
+    for(let key in books)
+    {
+        if(books[key].author === author) {
+            filtered_author = books[key];
             break;
         }
     }
-    if (!found){
-        res.status(404).json({message: "Author not found!"});
-    }
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({filtered_author})
+        }, 5000)
+    })
+    .then(data => {
+        res.send(filtered_author)
+    })
 });
 
-// Get all books based on title
+// Get all books based on title with promise/ callback functions
 public_users.get('/title/:title',function (req, res) {
     const title = req.params.title;
-
-    var data = eval(books);
-    var titles = '';
-    var found = false;
-    for (var key in data) {
-        titles = books[key]['title'];
-
-        if (title === titles){
-            res.send(books[key]);
-            found = true;
+    filtered_title = null;
+    for( let key in books) {
+        if(books[key].title === title) {
+            filtered_title = books[key];
             break;
         }
     }
-    if (!found) {
-        res.status(404).json({message:"Title not found!"});
-    }
+    
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({filtered_title})
+        }, 5000)
+    })
+    .then(data => {
+        res.send(filtered_title);
+    })
 });
 
 //  Get book review
